@@ -1,0 +1,11 @@
+- name: Create blank file on app servers server
+  hosts: appserv
+  become: yes
+  tasks:
+    - name: Create blank file with specified permissions
+      file:
+        path: /tmp/code.txt
+        state: touch
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0744'   

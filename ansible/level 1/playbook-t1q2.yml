@@ -1,0 +1,6 @@
+  - name: running echo command
+    hosts: localhost
+    become: yes
+    tasks:
+      - name: run command
+        command: echo "Welcome!"

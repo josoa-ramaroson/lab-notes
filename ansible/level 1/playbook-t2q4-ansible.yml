@@ -1,0 +1,10 @@
+- name: copying file to the same host
+  hosts: local
+  become: yes
+  tasks:
+    - name: copying tasks
+      copy:
+        src: /usr/src/devops-t2q4/devops-t2q4.txt
+        dest: /opt/devops-t2q4
+        owner: "thor"
+        group: "thor"

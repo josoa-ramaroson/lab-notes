@@ -1,0 +1,8 @@
+- name: Create blank file on app servers 2
+  hosts: stapp02
+  become: yes
+  tasks:
+    - name: Create blank file
+      file:
+        path: /tmp/file-t1q1.txt
+        state: touch

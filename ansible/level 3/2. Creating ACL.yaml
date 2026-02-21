@@ -1,0 +1,42 @@
+- name: Manage security files and symlinks
+  hosts: stapp01, stapp02, stapp03
+  become: yes
+
+  vars:
+    file_and_acls:
+      - host: stapp01
+        path: "/opt/devops/blog.txt"
+        permissions: "r"
+        entity: "tony"
+        etype: "group"
+        state: "present"
+      - host: stapp02
+        path: "/opt/devops/story.txt"
+        permissions: "rw"
+        entity: "steve"
+        etype: "user"
+        state: "present"
+      - host: stapp03
+        path: "/opt/devops/media.txt"
+        permissions: "rw"
+        entity: "banner"
+        etype: "group"
+        state: "present"
+  tasks:
+    - name: Creating empty file
+      file:
+        path: "{{ item.path }}"
+        state: touch
+        owner: "root"
+        group: "root"
+      loop: "{{ file_and_acls }}"
+      when: inventory_hostname == item.host
+    - name: Setting ACL policies for all app servers
+      acl:
+        path: "{{ item.path }}"
+        entity: "{{ item.entity }}"
+        etype: "{{ item.etype }}"
+        state: "{{ item.state }}"
+        permissions: "{{ item.permissions }}"
+      loop: "{{ file_and_acls }}"
+      when: inventory_hostname == item.host

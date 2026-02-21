@@ -1,0 +1,9 @@
+
+- name: copy file to all application servers in stratos DC
+  hosts: appserv
+  become: yes
+  tasks:
+    - name: /usr/src/finance/index.html to /opt/finance
+      copy:
+        src: /usr/src/finance/index.html
+        dest: /opt/finance

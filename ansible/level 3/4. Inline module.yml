@@ -1,0 +1,28 @@
+- name: Configuring server with static file
+  hosts: stapp01, stapp02, stapp03
+  become: yes
+  tasks:
+    - name: install httpd server 
+      package:
+        name: httpd
+        state: present
+    - name: enabling httpd server
+      service:
+        name: httpd 
+        state: started
+        enabled: yes
+    - name: create file with content
+      copy:
+        content: This is a Nautilus sample file, created using Ansible!
+        dest: /var/www/html/index.html
+        owner: apache
+        group: apache
+        mode: "0644"
+    - name: adding line at start
+      lineinfile:
+        path: /var/www/html/index.html
+        line: Welcome to Nautilus Group!
+        insertbefore: BOF
+        owner: apache
+        group: apache
+        mode: "0644"

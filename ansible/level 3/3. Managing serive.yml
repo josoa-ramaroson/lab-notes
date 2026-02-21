@@ -1,0 +1,13 @@
+- name: install and configure packages
+  hosts: stapp01, stapp02, stapp03
+  become: yes
+  tasks:
+    - name: Ensuring package is present
+      package: 
+        name: vsftpd
+        state: present
+    - name: Starting services 
+      service:
+        name: vsftpd
+        state: started
+        enabled: yes

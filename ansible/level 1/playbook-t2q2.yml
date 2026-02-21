@@ -1,0 +1,12 @@
+- name: copying file to stapp01, stapp02, stapp03
+  hosts: 
+    - stapp01
+    - stapp02
+    - stapp03
+  become: yes
+  tasks:
+    - name: copying tasks
+      copy:
+        src: /usr/src/devops-t2q2/system-t2q2.txt
+        dest: /opt/devops-t2q2
+        mode: '0600'

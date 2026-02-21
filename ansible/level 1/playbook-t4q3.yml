@@ -1,0 +1,11 @@
+- name: creating directory on stapp01, stapp02, stapp03
+  hosts: 
+    - stapp01
+    - stapp02
+    - stapp03
+  become: yes
+  tasks:
+    - name: creating directory
+      file:
+        path: /opt/backup-t4q3
+        state: directory

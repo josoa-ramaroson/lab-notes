@@ -1,0 +1,11 @@
+- name: Deleting files from stapp01, stapp02, stapp03
+  hosts: 
+    - stapp01
+    - stapp02
+    - stapp03
+  become: yes
+  tasks:
+    - name: deleting /opt/fruits-t4q4.txt
+      file:
+        path: /opt/fruits-t4q4.txt
+        state: absent

@@ -1,0 +1,26 @@
+- name: Alter some of the data as per recent change
+  hosts: stapp01, stapp02, stapp03
+  become: yes
+  vars:
+    file_and_acls:
+      - host: stapp01
+        path: "/opt/sysops/blog.txt"
+        regexp: "xFusionCorp"
+        replace: "Nautilus"
+      - host: stapp02
+        path: "/opt/sysops/story.txt"
+        regexp: "Nautilus"
+        replace: "KodeKloud"
+      - host: stapp03
+        path: "/opt/sysops/media.txt"
+        regexp: "KodeKloud"
+        replace: "xFusionCorp Industries"
+  tasks:
+    - name: Replacing line
+      replace:
+        path: "{{ item.path }}"
+        regexp: "{{ item.regexp }}"
+        replace: "{{ item.replace }}"
+      loop: "{{ file_and_acls }}"
+      when: inventory_hostname == item.host
+   

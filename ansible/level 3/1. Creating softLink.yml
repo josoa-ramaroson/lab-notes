@@ -1,0 +1,62 @@
+- name: Testing some file module to create SoftLink
+  hosts: stapp01, stapp02, stapp03
+  become: yes
+  tasks:
+    - name: Create en empty file in /opt/security/blog.txt on stapp01
+      file:
+        path: /opt/security/blog.txt
+        state: touch
+        owner: tony
+        group: tony
+      when: inventory_hostname == "stapp01"
+    - name: creating symbolic link to /var/www/html on stapp01
+      file:
+        src: /opt/security/blog.txt
+        dest: /var/www/html/blog.txt
+        state: link 
+      when: inventory_hostname == "stapp01"
+    - name: Create en empty file in /opt/security/story.txt on stapp02
+      file:
+        path: /opt/security/story.txt
+        state: touch
+        owner: steve
+        group: steve
+      when: inventory_hostname == "stapp02"
+    - name: creating symbolic link to /var/www/html on stapp02
+      file:
+        src: /opt/security/story.txt
+        dest: /var/www/html/story.txt
+        state: link 
+      when: inventory_hostname == "stapp02"
+```
+
+```yaml
+- name: Manage security files and symlinks
+  hosts: stapp01, stapp02, stapp03
+  become: yes
+
+  vars:
+    security_files:
+      - host: stapp01
+        filename: blog.txt
+        owner: tony
+      - host: stapp02
+        filename: story.txt
+        owner: steve
+      - host: stapp03
+        filename: media.txt
+        owner: banner
+  tasks:
+    - name: Create empty file with correct ownerships
+      file:
+        path: "/opt/security/{{ item.filename }}"
+        state: touch
+        owner: "{{ item.owner }}"
+        group: "{{ item.owner }}"
+      loop: "{{ security_files }}"
+      when: inventory_hostname == item.host
+    - name: Creating symlink of /opt/security
+      file:
+        src: /opt/security/
+        dest: /var/www/html
+        state: link 
