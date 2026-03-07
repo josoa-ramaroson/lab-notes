@@ -1,0 +1,11 @@
+aws rds create-db-instance \
+  --db-instance-identifier devops-rds \
+  --db-instance-class db.t3.micro \
+  --engine mysql \
+  --engine-version 8.4.5 \
+  --allocated-storage 5 \
+  --storage-type gp2 \
+  --master-username devops_admin \
+  --master-user-password '<appropriate password>' \
+  --db-name devops_db \
+  --no-publicly-accessible
