@@ -1,0 +1,1 @@
+KKE_BUCKET_NAME = "xfusion-s3-20863"
