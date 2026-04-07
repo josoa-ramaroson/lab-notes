@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-devops
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 3Gi
+  hostPath:
+    path: /mnt/data
+
+---
+apiVersion: v1 
+kind: PersistentVolumeClaim 
+metadata:
+  name: pvc-devops
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-devops
+  labels:
+    app: devops_app
+spec:
+  containers:
+  - name: container-devops
+    image: httpd:latest
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: data-volume 
+      mountPath: /usr/local/apache2/htdocs/
+  volumes:
+  - name: data-volume
+    persistentVolumeClaim:
+      claimName: pvc-devops
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-devops
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30008
+  selector:
+    app: devops_app
+    
