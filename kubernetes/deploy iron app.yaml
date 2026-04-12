@@ -61,11 +61,11 @@ spec:
         - name: MYSQL_DATABASE
           value: database_host
         - name: MYSQL_ROOT_PASSWORD
-          value: QZtZr)gi0x;(%Co{
+          value: <password>
         - name: MYSQL_PASSWORD
-          value: wOB)gtHjNpVbCE61
+          value: <password>
         - name: MYSQL_USER
-          value: testuser1
+          value: <user_name>
         volumeMounts:
         - name: db
           mountPath: /var/lib/mysql
